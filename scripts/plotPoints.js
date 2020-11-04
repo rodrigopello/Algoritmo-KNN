@@ -1,5 +1,6 @@
 function plotPoints(Test,Training,k) {
 
+    console.log(Test)
     //Defino variables a utilizar
     var ArrayGrid=[]
     var minx =100000;
@@ -19,52 +20,56 @@ var ColoresTes=["#820500","#0b484a","#674e14","#320480","#1f0267","#0e113e"]
 var Dataset=Training
 var DataTest=Test
     var DatasetTotal=[]
-    Training.forEach(element=>{
+    var longDataTraining=Dataset.length
+    Dataset.forEach(element=>{
         DatasetTotal.push(element)
     })
-    Test.forEach(element=>{//a los elementos del dataset de prueba, se les cambia el nombre de la clase, sumàndole "Test"
-        element.Clase=element.Clase
+    var longDatatest=DataTest.length
+    DataTest.forEach(element=>{//a los elementos del dataset de prueba, se les cambia el nombre de la clase, sumàndole "Test"
+        testString=element.Clase
         DatasetTotal.push(element)
     })
  
 
     var indexColor= 0;
     var C = [] // Defino un arreglo vacío
+    var C2 = []
     var control=false // Defino una bandera para controlar las clases en C
-    for (let i=1;i <Dataset.length - 1;i++){
+    for (let i=1;i <Training.length - 1;i++){
         if (C.length > 0){
             control=false
             for (let j=0; j< C.length;j++){
-                if (Dataset[i].Clase === C[j].Clase){
+                if (Training[i].Clase === C[j].Clase){
                     control=true
                 }
             }
             if (!control){
-                C.push(new Clase(Dataset[i].Clase,Colores[indexColor]))
+                C.push(new Clase(Training[i].Clase,Colores[indexColor]))
                 indexColor=indexColor+1;
             }
         }
         else{
-            C.push(new Clase(Dataset[i].Clase,Colores[indexColor]))
+            C.push(new Clase(Training[i].Clase,Colores[indexColor]))
             indexColor=indexColor+1;
         }
     }
     indexColor=0
     var C1 = [] // Defino un arreglo vacío
     var control1=false // Defino una bandera para controlar las clases en C
-    for (let i=1;i <Test.length - 1;i++){
+    for (let i=1;i <DataTest.length - 1;i++){
         if (C1.length > 0){
             control1=false
             for (let j=0; j< C1.length;j++){
-                if (Test[i].Clase === C1[j].Clase){
+                if (DataTest[i].Clase === C2[j].Clase){
                     control1=true
                 }
             }
             if (!control1){  
                 for(let m=0;m <C.length;m++){
                     if(C[m].Clase=== Test[i].Clase){
-                    C1.push(new Clase(Test[i].Clase,ColoresTes[indexColor]))
-                    indexColor=indexColor+1
+                        var dato= Test[i].Clase + ' Test'
+                    C1.push(new Clase(dato,ColoresTes[m]))
+                    C2.push(new Clase(Test[i].Clase,ColoresTes[m]))
                     }
                 }
                
@@ -72,15 +77,21 @@ var DataTest=Test
         }
         else{
             for(let m=0;m <C.length;m++){
-                if(C[m].Clase=== Test[i].Clase){
-                C1.push(new Clase(Test[i].Clase,ColoresTes[indexColor]))
-                indexColor=indexColor+1
+                if(C[m].Clase=== DataTest[i].Clase){
+                   var dato= Test[i].Clase + ' Test'
+                C1.push(new Clase(dato,ColoresTes[m]))
+                C2.push(new Clase(Test[i].Clase,ColoresTes[m]))
                 }
             }
         }
     }
-
+    console.log(Training)
+    console.log(Test)
+    console.log(DataTest)
+    console.log(Dataset)
+    console.log(C)
     console.log(C1)
+    console.log(C2)
     
  /*   var C1 = [] // Defino un arreglo vacío
     var control1=false // Defino una bandera para controlar las clases en C
@@ -112,7 +123,6 @@ var DataTest=Test
 */
 // Cargo todas las clases en el arreglo
 
-var Clases=[]//queda con las clases del training
 var ClasesTotal=[]//queda con todas las clases (test y training)
 C.forEach(element=>{
 
@@ -123,7 +133,7 @@ C1.forEach(element=>{
 
     ClasesTotal.push(new Clase(element.Clase,element.Color))
 })
-
+console.log(ClasesTotal)
 
 
 //Busco los menores y los maximos valores del Dataset  tanto en x como en y  
@@ -149,7 +159,6 @@ C1.forEach(element=>{
     var totalx=Math.abs(minx) + Math.abs(maxx)
     var totaly=Math.abs(miny) + Math.abs(maxy)
     var intervalo;
-    var datocontrol;
     if (totalx >totaly){
         intervalo=totalx * 0.02
         datocontrol=0
@@ -189,9 +198,10 @@ C1.forEach(element=>{
   C.forEach(element=>{clasesGrid.push(element.Clase)})
 
   kNNGrid(ArrayGrid,D,ArrayPintado,k,clasesGrid,Colores)
- var testband=false
+ var testband=0
 ClasesTotal.forEach(element=>{ //recorre clases de training
-    var clase = {
+    if (testband <(ClasesTotal.length/2)){
+    var clase1 = {
         x: [],
         y: [],
         mode: 'markers',
@@ -202,23 +212,49 @@ ClasesTotal.forEach(element=>{ //recorre clases de training
             color: element.Color
         }
     };
-    data.push(clase)
-    console.log(data)
+    data.push(clase1)
+}
+else{
+    var clase2 = {
+        x: [],
+        y: [],
+        mode: 'markers',
+        type: 'scatter',
+        name: 'Class: ' + element.Clase,
+        marker: {
+            size: 6,
+            color: element.Color
+        }
+    };
+    data.push(clase2)
+}
     
+    
+    testband=testband+1
 })
+console.log(data)
+console.log(DatasetTotal)
+var long=0
 
-
-
-
-for(let i=0;i<ClasesTotal.length;i++){
     DatasetTotal.forEach(point => {
-        if (point.Clase == ClasesTotal[i].Clase) {
+        if (long <(longDataTraining)){
+        for(let i=0;i < (ClasesTotal.length)/2;i++){
+            if (point.Clase === ClasesTotal[i].Clase) {
+                data[i].x.push(point.X)
+                data[i].y.push(point.Y)
+            }
+        }
+    }
+        else {  
+        for(let i=(ClasesTotal.length)/2;i < ClasesTotal.length;i++){    
+        if ((point.Clase + ' Test') === ClasesTotal[i].Clase) {
             data[i].x.push(point.X)
             data[i].y.push(point.Y)
         }
-    });
-}
-
+    }
+    }
+    long=long+1
+});
 var options = {
     scrollZoom: true,
     displayModeBar: true,
