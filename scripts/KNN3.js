@@ -33,8 +33,8 @@ function cantiClases(D) {
 
 
 function tratarData(Dataset,k,porc,tipo) {
-var DTest=[]
-var DTraining=[]
+    var DTest=[]
+    var DTraining=[]
 
     if (tipo=='GRAFICA') {
         DTest=DatasetTest
@@ -106,26 +106,27 @@ var DTraining=[]
         DTest=DatasetTest
         DTraining=DatasetTraining        
         arregloPrecision = kNN(DatasetTest,DatasetTraining);
-        var arregloKOptimo = kOptimo(DatasetTest,DatasetTraining);
-        console.log(arregloKOptimo);   
+        //var arregloKOptimo = kOptimo(DatasetTest,DatasetTraining);
+        //console.log(arregloKOptimo);   
         console.log(arregloPrecision);  
-        var mayorK=mayor(arregloKOptimo);
+        var mayorK=mayor(arregloPrecision);
         plotPoints(DTest,DTraining,mayorK[0]);
         document.querySelector("#cargando").classList.add("d-none");   
         document.getElementById("kOptimo").value = mayorK[0];
         document.getElementById("PorcOptimo").value = (mayorK[1]*100).toFixed(2);
         document.getElementById("PorcEntre").value = 100-porcentaje;
-        document.getElementById("PorcC1").value = (ent1/(ent1+ent2))*100;
-        document.getElementById("PorcC2").value = (ent2/(ent1+ent2))*100;
+        document.getElementById("PorcC1").value = ((ent1/(ent1+ent2))*100).toFixed(2);
+        document.getElementById("PorcC2").value = ((ent2/(ent1+ent2))*100).toFixed(2);
         document.getElementById("PorcPrueba").value = porcentaje;
-        document.getElementById("PorcC11").value = ((DeleteXClase+del1)/DeleteTotal)*100;
-        document.getElementById("PorcC22").value = ((DeleteXClase+del2)/DeleteTotal)*100;
+        document.getElementById("PorcC11").value = (((DeleteXClase+del1)/DeleteTotal)*100).toFixed(2);
+        document.getElementById("PorcC22").value = (((DeleteXClase+del2)/DeleteTotal)*100).toFixed(2);
     }
 }
 
 function kNN(DatasetTest,DatasetTraining) {    
     arrayPrecisiones=[];
-    for (let k = 1; k < 11; k++){
+    var n=DatasetTraining.length;
+    for (let k = 1; k < (n+1); k++){
         var arrayPrueba=[];
         arrayPrueba.push(k);
         var precision=0;
@@ -145,11 +146,15 @@ function kNN(DatasetTest,DatasetTraining) {
         arregloTest.push(arrayPrueba);
         
         precision=precision/DatasetTest.length;
+        if (isNaN(precision)) {
+            precision=1
+        }
         var aux = [k,precision];
         arrayPrecisiones.push(aux);
     }    
     //console.log(arregloTest);
     generatekPrecisionTable(arrayPrecisiones);
+    generateRankingTable(arrayPrecisiones);
     return arrayPrecisiones;
 }
 
@@ -223,13 +228,13 @@ function seleccionarClase(arrayDistance,k) {
     var tot=arrayC.length;
     for (let i = 1; i < tot; i++) {//recorro arrayC
         const element = arrayC[i];
-        if (mayor[0]>element[0]) {
-            arrayC.splice(i,1);
-            //arrayC2.push(element[0]);
+        if (mayor[0]==element[0]) {
+            //arrayC.splice(i,1);
+            arrayC2.push(element);
         } 
     };
 
-    if (arrayC.length==1) { //caso que una sola clase es la mayor
+    if (arrayC2.length==1) { //caso que una sola clase es la mayor
         var claseWin = arrayC[0][1];  
     } else {  //caso varias clases tienen la misma cantidad
         var ranuras=ruleta2(arrayC2);//array de ranuras para tirar la ruleta
@@ -251,30 +256,6 @@ function ruleta2(arrayC) {
         }        
     } 
     return ranuras
-}
-
-function kOptimo(DatasetTest,DatasetTraining) {  //algoritmo knn para encontrar K optimo    
-    arrayPrecisiones=[];
-    var n=DatasetTraining.length;
-
-    for (let k = 11; k < (n+1); k++){
-        var precision=0;
-        DatasetTest.forEach(element=>{
-            var arrayDistance = calcularDistancia(element,DatasetTraining);
-            var claseWin = seleccionarClase(arrayDistance,k);
-            if (claseWin==element.Clase) {
-                precision++;
-            } 
-        });
-        precision=precision/DatasetTest.length;
-        //precision=precision.toFixed(4);
-        var aux = [k,precision];
-        arrayPrecisiones.push(aux);
-    }   
-    arregloPrecision.forEach(element=>arrayPrecisiones.push(element));
-    generateRankingTable(arrayPrecisiones);//genero la tabla correspondiente
-
-    return arrayPrecisiones;
 }
 
 function PointClassifier(point,k,Dataset) { //Clasificador de un punto especifico
@@ -360,14 +341,18 @@ function generateRankingTable(arreglo){
         tr.appendChild(td);
 
         td = document.createElement('td');
-        td.appendChild(document.createTextNode((array[i][1]*100)+"%"));
+        td.appendChild(document.createTextNode(((array[i][1]*100).toFixed(2))+"%"));
         tr.appendChild(td);
         theTable.appendChild(tr);
     }
     
 }
 function generatekPrecisionTable(arreglo){
-    var array=sortByCol(arreglo, 1);    
+    var arreglo2=[];
+    for (let i = 1; i < 11; i++) {
+        arreglo.forEach(element => {if (element[0]==i) {arreglo2.push(element);}});        
+    }
+    var array=sortByCol(arreglo2, 1);    
     var arrayLength = array.length;
     var theTable = document.getElementById('kPrecisionTable').getElementsByTagName('tbody')[0];
 
@@ -384,7 +369,7 @@ function generatekPrecisionTable(arreglo){
         tr.appendChild(td);
 
         td = document.createElement('td');
-        td.appendChild(document.createTextNode((array[i][1]*100)+"%"));
+        td.appendChild(document.createTextNode(((array[i][1]*100).toFixed(2))+"%"));
         tr.appendChild(td);
         theTable.appendChild(tr);
     }

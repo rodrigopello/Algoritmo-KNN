@@ -356,20 +356,22 @@ function seleccionarClaseGrid(arrayDistance,k) {
         if (a[0] > b[0]) return -1;
         return 0;
     });
-
+    var arrayC2=[];
     var mayor = arrayC[0]; //tomo el mayor y compara si hay otras clases con la misma cantidad
+    arrayC2.push(mayor);
     var tot=arrayC.length;
     for (let i = 1; i < tot; i++) {//recorro arrayC
         const element = arrayC[i];        
-        if (mayor[0]>element[0]) {
-            arrayC.splice(i,1);
+        if (mayor[0]==element[0]) {
+            //arrayC.splice(i,1);
+            arrayC2.push(element);
         } 
     };
 
-    if (arrayC.length==1) { //caso que una sola clase es la mayor
+    if (arrayC2.length==1) { //caso que una sola clase es la mayor
         var claseWin = arrayC[0][1];  
     } else { //caso varias clases tienen la misma cantidad
-        var ranuras=ruleta2Grid(arrayC);//array de ranuras para tirar la ruleta
+        var ranuras=ruleta2Grid(arrayC2);//array de ranuras para tirar la ruleta
         var j =Math.trunc(Math.random()*(ranuras.length-1));//seleciona la clase ganadora por ruleta
         var claseWin = ranuras[j];
     };
@@ -382,7 +384,7 @@ function ruleta2Grid(arrayC) {
     var ranuras=[];
     var n=0;
     arrayC.forEach(element=>n+=element[0]);
-    for (let i = 0; i < cantClases; i++) { 
+    for (let i = 0; i < arrayC.length; i++) { 
         var cant = Math.round((arrayC[i][0]/n)*100);
         var clase=arrayC[i][1]        
         for (let j = 0; j < cant; j++) {

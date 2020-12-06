@@ -30,10 +30,9 @@
 
 <body style="background-color:rgb(92, 46, 197); padding-left: 15%;padding-right: 15%;padding-top: 5%;padding-bottom: 3%;">
   <div style="text-align: -webkit-center; color: white;font-family: 'Open Sans', sans-serif; margin-bottom: 30px; ">
-    <h1 style="   font-family: 'Righteous', cursive;     font-size: 5rem;"> k Near Neighbors</h1>
-    <h3 style="    margin-bottom: 60px;font-family: 'Open Sans', sans-serif;">by UTN FRRe students</h3>
+    <h1 style="   font-family: 'Righteous', cursive;     font-size: 5rem;"> K Vecinos Próximos</h1>
     <div class="card" style="width: 100%;padding: 40px 60px 40px 60px; background-color: #f2af11; "> <!--   inputs card-->
-      <h3 style="     font-weight: bold;   margin-bottom: 30px;">Load a csv. Dataset</h3>
+      <h3 style="     font-weight: bold;   margin-bottom: 30px;">Cargar Archivo de Dataset</h3>
       <form id="loadFile">        
         <div class="custom-file ">
           <div class="input-group mb-3"> <!--   file input-->
@@ -42,25 +41,25 @@
             </div>
             <div class="custom-file">
               <input type="file" accept=".csv,.txt" class="custom-file-input" id="inputfile" aria-describedby="inputGroupFileAddon03">
-              <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+              <label class="custom-file-label" for="inputGroupFile03">Seleccione el archivo</label>
             </div>
           </div>
           <hr style="margin: 40px;">
-          <h3 style="margin-bottom: 30px;    font-weight: bold;">Divide your dataset</h3>
+          <h3 style="margin-bottom: 30px;    font-weight: bold;">Ingrese el porcentaje para el Dataset de Prueba</h3>
           <div class="row" style="margin-bottom: 30px;"><!--  proportions input-->
             <div class="col-md-3">
-              <h4>Test Dataset:</h4>
+              <h5>Dataset de Prueba:</h5>
             </div>
             <div class="col-md-3">
               <div class="input-group "> <!-- test dataset -->
-                <input id="test" value="1" min="1" max="100" type="number" class="form-control" oninput="trainingPercent(this.value)" aria-label="">
+                <input id="test" value="0" min="0" max="99" type="number" class="form-control" oninput="trainingPercent(this.value)" aria-label="">
                 <div class="input-group-append">
                   <span class="input-group-text">%</span>
                 </div>
               </div>
             </div>
             <div class="col-md-3">
-              <h4>Training Dataset:</h4>
+              <h5>Dataset de Entrenamiento:</h5>
             </div>
             <div class="col-md-3">
               <div class="input-group "> <!--  training dataset -->
@@ -83,10 +82,10 @@
 
     <div id="chartCard"  class="card" style="width: 100%; margin-top: 15px; color:slategrey ; padding: 25px; text-align: -webkit-center; display: none;"><!-- outputs card--> 
       <div class="card" style=" padding: 25px; margin: 20px 40px 40px 40px; border-color: #00ffcd; background-color: #00ffcd21; border-style: dotted;" >
-        <h3 style="   font-weight: bold;">Overall results</h3>
+        <h3 style="   font-weight: bold;">Resultados Generales de la Simulación</h3>
         <div class="row" >
           <div class="col-sm-6" style="text-align: -webkit-right;">
-            <h5> Optimal k  between 1 and n-1:</h5>
+            <h5>K Óptimo:</h5>
           </div>
           <div class="col-sm-6" style=" text-align: -webkit-left;">
             <div class="input-group " style="width: 30%;"> <!--  training dataset -->
@@ -96,7 +95,7 @@
         </div>
         <div class="row" style="margin-top: 10px;">
           <div class="col-sm-6" style=" text-align: -webkit-right;">
-            <h5>Accuracy:</h5>
+            <h5>Precisión:</h5>
           </div>
           <div class="col-sm-6" style=" text-align: -webkit-left;">
             <div class="input-group " style="width: 30%;"> <!--  training dataset -->
@@ -106,10 +105,84 @@
               </div>
             </div>
           </div>
-        </div>     
+        </div>    
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-sm-6" style=" text-align: -webkit-right;">
+            <h5>Porc. Entrenamiento:</h5>
+          </div>
+          <div class="col-sm-6" style=" text-align: -webkit-left;">
+            <div class="input-group " style="width: 30%;"> <!--  training dataset -->
+              <input type="number" min="0" id="PorcEntre" disabled id="entrenamiento" class="form-control" aria-label="">
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div>   
+        <div class="row" style="margin-top: 10px;">
+          <div class="col" style=" text-align: -webkit-right;">
+            <h5>Porc. Clase 1:</h5>
+          </div>
+          <div class="col" style=" text-align: -webkit-left;">
+            <div class="input-group " style="width: 30%;"> <!--  training dataset -->
+              <input type="number" min="0" id="PorcC1" disabled id="porcC1" class="form-control" aria-label="">
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="col" style=" text-align: -webkit-right;">
+            <h5>Porc. Clase 2:</h5>
+          </div>
+          <div class="col" style=" text-align: -webkit-left;">
+            <div class="input-group " style="width: 30%;"> <!--  training dataset -->
+              <input type="number" min="0" id="PorcC2" disabled id="porcC2" class="form-control" aria-label="">
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-sm-6" style=" text-align: -webkit-right;">
+            <h5>Porc. Prueba:</h5>
+          </div>
+          <div class="col-sm-6" style=" text-align: -webkit-left;">
+            <div class="input-group " style="width: 30%;"> <!--  training dataset -->
+              <input type="number" min="0" id="PorcPrueba" disabled id="prueba" class="form-control" aria-label="">
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="row" style="margin-top: 10px;">
+          <div class="col" style=" text-align: -webkit-right;">
+            <h5>Porc. Clase 1:</h5>
+          </div>
+          <div class="col" style=" text-align: -webkit-left;">
+            <div class="input-group " style="width: 30%;"> <!--  training dataset -->
+              <input type="number" min="0" id="PorcC11" disabled id="porcC11" class="form-control" aria-label="">
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="col" style=" text-align: -webkit-right;">
+            <h5>Porc. Clase 2:</h5>
+          </div>
+          <div class="col" style=" text-align: -webkit-left;">
+            <div class="input-group " style="width: 30%;"> <!--  training dataset -->
+              <input type="number" min="0" id="PorcC22" disabled id="porcC22" class="form-control" aria-label="">
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div> 
       </div>
 
-      <h3 style="   font-weight: bold;">Pick a value for k</h3>
+      <h3 style="   font-weight: bold;">Seleccione el Valor de K</h3>
       <div class="btn-group btn-group-toggle" data-toggle="buttons" style="    width: 100%; padding: 0px 40px 0px 40px;"><!-- k selector-->
         <label class="btn btn-secondary active" onclick="">
           <input type="radio" name="options" value="0" id="optionK" onclick="Plot(0)" autocomplete="off" checked> Op.
@@ -172,7 +245,7 @@
         </div>
         <div class="col-md-12 m-4 d-flex justify-content-center">
           <div>
-            <h1 class="col-md-12">Chart is loading. Wait a minute, please.</h1>
+            <h1 class="col-md-12">Cargando gráfica, espere un momento.</h1>
           </div>
         </div>
       </div>
@@ -181,10 +254,11 @@
         <div id="chart" style="width:100%; height:1000px;"></div><!-- chart-->
       </div>
       
-      <div class="card" style=" padding: 25px; margin: 40px; border-color: #acafb3; border-style: dotted;" >    
+      <div class="card" style=" padding: 25px; margin: 40px; border-color: #acafb3; border-style: dotted;" >  
+        <h5>Clasificación del Dataset de Prueba</h5>  
         <div class="row" style="margin-top: 10px;">
           <div class="col-sm-6" style=" text-align: -webkit-right;">
-            <h5> For the selected k value accuracy is:</h5>
+            <h5> Precisión:</h5>
           </div>
           <div class="col-sm-6" style=" text-align: -webkit-left;">
             <div class="input-group " style="width: 30%;"> <!--  training dataset -->
@@ -199,11 +273,11 @@
           <table id="classTable"  class="table table-striped">  
             <thead class="thead-dark ">  
               <tr>  
-                <th>Order</th>  
+                <th>Posición</th>  
                 <th>X1</th>  
                 <th>X2</th>
-                <th>Original class</th>  
-                <th>Calculated class</th>
+                <th>Clase Original</th>  
+                <th>Clase Calculada</th>
               </tr>  
             </thead>  
             <tbody style="background-color: white;">      
@@ -216,11 +290,11 @@
   <div id="ulListado"></div> 
 
     <div id="tablesCard"  class="card" style=" background-color: #5ec8b3;; width: 100%; margin-top: 15px; padding: 25px; text-align:  -webkit-center; display: none;"><!-- tables card-->
-      <h3 style="     font-weight: bold;   margin-bottom: 30px;">Some useful data in tables</h3>
+      <h3 style="     font-weight: bold;   margin-bottom: 30px;">Datos Útiles</h3>
       <div class="btn-group" role="group" style="    width: 100%;">
-        <button type="button" onclick="showTable1()"  class="btn btn-secondary btn-lg ">All dataset table</button>
-        <button type="button"  onclick="showTable2()"  class="btn btn-secondary btn-lg">Precision according to k value</button>
-        <button type="button" onclick="showTable3()"  class="btn btn-secondary btn-lg">Precisions ranking from k = 1 to k = n-1</button>
+        <button type="button" onclick="showTable1()"  class="btn btn-secondary btn-lg ">Dataset</button>
+        <button type="button"  onclick="showTable2()"  class="btn btn-secondary btn-lg">Ranking de Precisiones para K de 1 a 10</button>
+        <button type="button" onclick="showTable3()"  class="btn btn-secondary btn-lg">Ranking de Precisiones para K de 1 a N</button>
       </div>     
         
       <div id="datasetTable" class="card"  style="border: #f0f8ff00;margin-top: 20px;text-align-last: center;display:block"></div>
@@ -229,9 +303,9 @@
         <table id="kPrecisionTable" class="table table-striped">
           <thead class="thead-dark ">  
             <tr>  
-              <th>Order</th>  
-              <th>k value</th>  
-              <th>Accuracy</th>  
+              <th>Posición</th>  
+              <th>Valor de K</th>  
+              <th>Precisión</th>  
             </tr>  
           </thead>  
           <tbody style="background-color: white;">   
@@ -243,9 +317,9 @@
         <table id="rankingTable"  class="table table-striped">  
           <thead class="thead-dark ">  
             <tr>  
-              <th>Order</th>  
-              <th>k value</th>  
-              <th>Accuracy</th>  
+              <th>Posición</th>  
+              <th>Valor de K</th>  
+              <th>Precisión</th>  
             </tr>  
           </thead>  
           <tbody style="background-color: white;">      
@@ -257,8 +331,13 @@
 
     <div id="ulListado"></div> 
   </div>
+</div>
+<footer>
+  <div style="text-align: -webkit-center; color: white;font-family: 'Open Sans', sans-serif; margin-bottom: 30px; ">
+    <h5 style="margin-top:130px;    margin-bottom: 10px;font-family: 'Open Sans', sans-serif;">Fernández Pello - Quetglas - Ríos López - Tascón</h5>
+    <h5 style="    margin-bottom: 10px;font-family: 'Open Sans', sans-serif;">UTN - FRRe - Inteligencia Artificial</h5>
   </div>
-
+</footer>
 
 <script>//parche file input
   // Esto hce que en el file input cambie "choose file" por el nombre del archivo
@@ -284,79 +363,83 @@ function trainingPercent (val){
   function goPlot() {
     var porc  = document.getElementById('test').value;
     var i  = document.getElementById('inputfile').value;
-    if (i!=""){
-      document.getElementById('chartCard').style.display="block";
-      document.getElementById('tablesCard').style.display="block";
-      //plot();
+    if (porc>100) {
+      alert("El Dataset de Prueba no puede ser mayor al 100% del Dataset");
+    } else {     
+    
+      if (i!=""){
+        document.getElementById('chartCard').style.display="block";
+        document.getElementById('tablesCard').style.display="block";
+        //plot();
 
-      document.querySelector("#cargando").classList.remove("d-none") // Carga el Loader
-      var fr = new FileReader(); 
-      var data = "";
-      var D=[];
-      var datasets =[];
-      var Dataset2=[];
-      var clases= [];
+        document.querySelector("#cargando").classList.remove("d-none") // Carga el Loader
+        var fr = new FileReader(); 
+        var data = "";
+        var D=[];
+        var datasets =[];
+        var Dataset2=[];
+        var clases= [];
 
-      //cuando cargas un archivo en el input
-      fr.onload=function(){ 
-        data = fr.result;  
-        var allRows = data.split(/\r?\n|\r/);
-        var table = '<table class="table table-striped">';
-        for (var singleRow = 0; singleRow < allRows.length; singleRow++) {//recorro linea a linea el csv
-          if (singleRow === 0) { //al inicio creo el header cuando estoy en la fila 0
-            table += '<thead class="thead-dark ">';
-            table += '<tr>';//inicio la unica fila del header
-          } else {
-            table += '<tr>';//sino creo una nueva fila de la tabla 
-          }          
-          var rowCells = allRows[singleRow].split(';');//divido la linea del csv por los ';' y la convierto en un arreglo, donde cada elemento es una columna
-          var xVar = 0;
-          var yVar = 0;          
-          for (var rowCell = 0; rowCell < rowCells.length; rowCell++) { //trato cada celda. Leo el arreglo rowCells elemento a elemento        
-            if (singleRow === 0) {//si es la primer linea del csv, creo una celda th, porque corresponde al header
-              table += '<th>';
-              table += rowCells[rowCell];// acá relleno la celda
-              table += '</th>';
+        //cuando cargas un archivo en el input
+        fr.onload=function(){ 
+          data = fr.result;  
+          var allRows = data.split(/\r?\n|\r/);
+          var table = '<table class="table table-striped">';
+          for (var singleRow = 0; singleRow < allRows.length; singleRow++) {//recorro linea a linea el csv
+            if (singleRow === 0) { //al inicio creo el header cuando estoy en la fila 0
+              table += '<thead class="thead-dark ">';
+              table += '<tr>';//inicio la unica fila del header
             } else {
-              table += '<td>';//sino, es una celda comun. Creo un td, y lo relleno con el contenido del arreglo en la posicion 
-              table += rowCells[rowCell];
-              switch(rowCell) {
-                case 0:
-                var x=rowCells[rowCell];
-                break;
-                case 1:
-                var y=rowCells[rowCell];
-                break;
-                case 2:
-                var clase = rowCells[rowCell];
-                break;
+              table += '<tr>';//sino creo una nueva fila de la tabla 
+            }          
+            var rowCells = allRows[singleRow].split(';');//divido la linea del csv por los ';' y la convierto en un arreglo, donde cada elemento es una columna
+            var xVar = 0;
+            var yVar = 0;          
+            for (var rowCell = 0; rowCell < rowCells.length; rowCell++) { //trato cada celda. Leo el arreglo rowCells elemento a elemento        
+              if (singleRow === 0) {//si es la primer linea del csv, creo una celda th, porque corresponde al header
+                table += '<th>';
+                table += rowCells[rowCell];// acá relleno la celda
+                table += '</th>';
+              } else {
+                table += '<td>';//sino, es una celda comun. Creo un td, y lo relleno con el contenido del arreglo en la posicion 
+                table += rowCells[rowCell];
+                switch(rowCell) {
+                  case 0:
+                  var x=rowCells[rowCell];
+                  break;
+                  case 1:
+                  var y=rowCells[rowCell];
+                  break;
+                  case 2:
+                  var clase = rowCells[rowCell];
+                  break;
+                }
+                table += '</td>';
               }
-              table += '</td>';
             }
-          }
-          D.push(new Point(parseFloat(x), parseFloat(y), clase))
-          if (singleRow === 0) {//si estoy en la primera linea del csv, cierro la unica fila del header; cierro el header y también empiezo el body de la tabla. 
-            table += '</tr>';
-            table += '</thead>';
-            table += '<tbody>';
-          } else {
-            table += '</tr>'; //sino, solo cierro la fila de datos que traté
-          }
-          //end for
+            D.push(new Point(parseFloat(x), parseFloat(y), clase))
+            if (singleRow === 0) {//si estoy en la primera linea del csv, cierro la unica fila del header; cierro el header y también empiezo el body de la tabla. 
+              table += '</tr>';
+              table += '</thead>';
+              table += '<tbody>';
+            } else {
+              table += '</tr>'; //sino, solo cierro la fila de datos que traté
+            }
+            //end for
+          } 
+          table += '</tbody>';//cierro el body
+          table += '</table>';//cierro la tabla
+
+          Dataset2=D;
+          tratarData(Dataset2,0,porc,"OPTIMO");
+          //console.log(Dataset2);   
+          $(document.getElementById('datasetTable')).append(table);//muestro la tabla en el div que corresponde
         } 
-        table += '</tbody>';//cierro el body
-        table += '</table>';//cierro la tabla
-
-        Dataset2=D;
-        tratarData(Dataset2,0,porc,"OPTIMO");
-        //console.log(Dataset2);   
-        $(document.getElementById('datasetTable')).append(table);//muestro la tabla en el div que corresponde
-      } 
-      //momento en el que leo el archivo. Al hacerlo se inicia el evento fr.onload (la función que está arriba)
-      fr.readAsText(document.getElementById('inputfile').files[0]); 
-    }    
-  }
-
+        //momento en el que leo el archivo. Al hacerlo se inicia el evento fr.onload (la función que está arriba)
+        fr.readAsText(document.getElementById('inputfile').files[0]); 
+      }    
+    }
+  } 
   //funciòn que crea la tabla con todos los csv y llama las funciones que crean los gráficos y demás tablas
   function Plot(k) {    
 
@@ -389,7 +472,7 @@ function trainingPercent (val){
 </script>
 <script src="../scripts/clases.js"></script>
 <script src="../scripts/plotPoints.js"></script>
-<script src="../scripts/kNN2.js"></script>
+<script src="../scripts/KNN3.js"></script>
 <script>/* Reset */function reset() {window.location.reload()}</script>  
 </body>
 </html>
